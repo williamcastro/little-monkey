@@ -31,7 +31,16 @@ class LittleMonkey {
 
 		// Register ajax actions
 		$this->ajax_register();
+
+		// Load includes
+		$this->includes();
 	}
+
+	public function includes() {
+		// Include all dependencies
+		require LITTLEMONKEY_PATH . 'classes/LittleMonkeyFiles.php';
+	}
+
 	/**
 	 *
 	 * Create admin menu
@@ -40,11 +49,11 @@ class LittleMonkey {
 	public function admin_menu() {
 		add_menu_page(
 			LITTLEMONKEY_NAME . ' - Settings',
-			'Settings',
+			LITTLEMONKEY_NAME,
 			'manage_options',
 			'littlemonkey_plugin_options',
 			array( self::get_instance(), 'view_settings' ),
-			'data:image/svg+xml;base64,' . base64_encode( '<svg width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M1591 1448q56 89 21.5 152.5t-140.5 63.5h-1152q-106 0-140.5-63.5t21.5-152.5l503-793v-399h-64q-26 0-45-19t-19-45 19-45 45-19h512q26 0 45 19t19 45-19 45-45 19h-64v399zm-779-725l-272 429h712l-272-429-20-31v-436h-128v436z"/></svg>' )
+			'data:image/svg+xml;base64,' . base64_encode( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320.63 416.78"><title>macacozada</title><g id="Camada_2" data-name="Camada 2"><path d="M71.4,308s9.51-17.17,9.87-49.71a286.37,286.37,0,0,0-.69-32.47C80,219.57,78.9,213.38,75.74,208c-2-3.41-6.33-7.87-10.61-8.87,0,0-12.78-24.22,8.73-61.62L69.42,131c4.78-7.17,48.15-67.22,153.21-52.71C199,65.84,170.94,63.45,151.47,63.64,158.55,21,109.73,0,109.73,0c-1.29,8.3,1.7,16.86,5.31,23.72a39.82,39.82,0,0,0-11-6.86C98,45.5,113.26,60.54,122.18,66.67c-58.44,15.86-85.38,61-85.38,61l.13.09-7.63,2.75c-10.69,13.74-11.18,70.19-11.18,70.19-31.6,34-12.26,83.44-12.26,83.44,8.52,20.35,13,24.34,14.15,25.08l-.12.81S30.05,320.47,36.47,322C36.47,322,61.55,321.69,71.4,308Z" style="fill:#fff"/><path d="M279.74,248.31c27.71-100.62-23.65-148.24-48.41-164.67C89.52,54.71,47,186.37,67.58,194.41c23,9,24,28,24,28s1,71-18,94C64.84,327,57.93,329,53,328.11,63.45,436,222.26,415.16,222.26,415.16,402.67,386.42,279.74,248.31,279.74,248.31ZM175.42,134.36a74.26,74.26,0,0,1,19-3.15,64.09,64.09,0,0,1,19.24,2.09q2.34.66,4.64,1.39c1.51.61,3,1.25,4.46,1.91l2.17,1c.7.41,1.4.8,2.08,1.25,1.37.86,2.71,1.73,4,2.68-1.63-.15-3.19-.39-4.73-.64-.78-.1-1.53-.26-2.29-.4l-2.31-.23c-1.53-.17-3-.37-4.53-.59s-3-.2-4.53-.33a153.17,153.17,0,0,0-17.92-.33q-9,.31-18,1.33c-6.06.66-12.13,1.49-18.49,2.32A56.94,56.94,0,0,1,175.42,134.36ZM278.14,346.5C251,375.24,195.91,380.83,155.2,371.25c-21.81-5.13-28.5-21.72-30-36-1.12-10.6.57-29.3,4.57-39.18l12.86-31.71h0a47.5,47.5,0,1,1,44.53-83,20.42,20.42,0,0,0,22.53.63A42.3,42.3,0,0,1,260.58,249h0S305.28,317.76,278.14,346.5Z" style="fill:#fff"/><ellipse cx="164.33" cy="222.84" rx="12.64" ry="12.99" transform="translate(-20.54 16.72) rotate(-5.48)" style="fill:#fff"/><ellipse cx="236.53" cy="220.95" rx="11.74" ry="12.07" transform="translate(-20.02 23.6) rotate(-5.48)" style="fill:#fff"/><ellipse cx="210.2" cy="254.47" rx="12.07" ry="20.24" transform="translate(-51.07 456.15) rotate(-88.11)" style="fill:#fff"/></g></svg>' )
 		);
 
 		add_submenu_page(
@@ -62,7 +71,7 @@ class LittleMonkey {
 	}
 
 	public function ajax_progress() {
-		wp_send_json(array('result' => 'success'));
+		wp_send_json(array('progress' => '3'));
 	}
 
 	/**
@@ -101,7 +110,7 @@ class LittleMonkey {
 		$additional_sizes = wp_get_additional_image_sizes();
 
 		// Setup final size array
-		$final_sizes = [];
+		$final_sizes = array();
 
 		foreach ( $sizes as $size ) {
 			$image_array = array(
@@ -213,6 +222,7 @@ class LittleMonkey {
 	 *
 	 */
 	public function view_bulk() {
-		echo 'ok';
+		$file = new \LittleMonkey\Files\Files();
+		$file->getFiles();
 	}
 }

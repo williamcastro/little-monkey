@@ -12,6 +12,7 @@ function resize_large_images() {
 }
 
 function has_api_key() {
+    /**
     setInterval(function() {
         jQuery.ajax({
             url: WP_AJAX.WP_AJAX_URL,
@@ -23,13 +24,11 @@ function has_api_key() {
                 console.log(response);
             })
     }, 2000);
+     **/
 
     jQuery('#lm_settings_form').submit(function (e) {
-
-        console.log(WP_AJAX);
-
-        return e.preventDefault();
         e.preventDefault();
+
         let api_key = jQuery('#lm_api_key');
 
         if (api_key.val() === '') {
